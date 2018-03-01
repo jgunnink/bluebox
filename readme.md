@@ -33,14 +33,14 @@ dep ensure
 ### Start services
 
 1.  Ensure postgres is listening for connections. A docker example: `docker run --rm -p 5432:5432 --name db -e POSTGRES_USER=develop -e POSTGRES_PASSWORD=develop -e POSTGRES_DB=bluebox postgres`
-1.  `glide install`
-1.  Start the go server with `realize run`
+1.  `dep ensure`
+1.  Start the go server with `go run ./cmd/bluebox/main.go serve`
 1.  Seed the database with `go run cmd/bluebox/*.go db:setup`
 
 ## Dependencies
 
 1.  PostgreSQL
-1.  Golang (ensure you glide install to fetch dependencies)
+1.  Golang (ensure you run dep ensure to fetch imported packages)
 
 ## Notes
 
