@@ -30,16 +30,6 @@ type Error struct {
 	Message string
 }
 
-// ErrorJSON returns a string for use in http.Error
-func ErrorJSON(err error) string {
-	errResponse := &Error{Message: err.Error()}
-	result, err := json.Marshal(errResponse)
-	if err != nil {
-		panic(err)
-	}
-	return string(result)
-}
-
 // HashPassword encrypts a plaintext string and returns the hashed version
 func HashPassword(password string) string {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
