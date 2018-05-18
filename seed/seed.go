@@ -8,7 +8,6 @@ import (
 	"sync"
 
 	"github.com/jgunnink/bluebox"
-	"github.com/jgunnink/bluebox/avatar"
 	"github.com/jgunnink/bluebox/db"
 	"github.com/jgunnink/bluebox/helpers"
 	"github.com/manveru/faker"
@@ -47,9 +46,7 @@ func (s *Seeder) Seed() error {
 		Role:         bluebox.RoleAdmin,
 		Archived:     false,
 		Disabled:     false,
-		Data: &bluebox.UserData{
-			Avatar: avatar.Avatar(email),
-		},
+		Data:         &bluebox.UserData{},
 	})
 	return s.Run()
 }
@@ -91,9 +88,7 @@ func (s *Seeder) SeedUsers() error {
 				Email:     email,
 				Password:  "password",
 				Role:      bluebox.RoleStaff,
-				Data: &bluebox.UserData{
-					Avatar: avatar.Avatar(email),
-				},
+				Data:      &bluebox.UserData{},
 			}
 			err := s.HTTPService.UserCreate(newUser)
 			if err != nil {

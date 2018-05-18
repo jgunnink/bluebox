@@ -8,12 +8,12 @@ A back-end webservice in Go which can be used as a template or starting point to
 
 ## What's included
 
-*   Users can signup for an account
-*   Roles are assigned to users (Admin, User)
-*   Admins can manage users
-*   Admins can send password reset emails to users - a sendgrid API key is required (specify this in the go server package)
-*   Users can reset their passwords with a unique password reset link which is emailed to them
-*   Admins can disable user accounts, preventing them from logging in.
+* Users can signup for an account
+* Roles are assigned to users (Admin, User)
+* Admins can manage users
+* Admins can send password reset emails to users - a sendgrid API key is required (specify this in the go server package)
+* Users can reset their passwords with a unique password reset link which is emailed to them
+* Admins can disable user accounts, preventing them from logging in.
 
 ## Getting Started
 
@@ -27,6 +27,7 @@ cd $_
 ### Install go dependencies
 
 ```bash
+curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 dep ensure
 ```
 

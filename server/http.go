@@ -6,11 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/sessions"
 	"github.com/jgunnink/bluebox"
-	"github.com/vulcand/oxy/forward"
-	"github.com/vulcand/oxy/testutils"
 )
 
 var cookieStore = sessions.NewCookieStore([]byte("gelatinoid-reparable-salmon"))
@@ -61,27 +58,15 @@ type MasterHandler struct {
 	FileServer     *http.ServeMux
 }
 
-// ReverseProxy provides the react app on port 3000 to go.
-func ReverseProxy(w http.ResponseWriter, r *http.Request) {
-	r.URL = testutils.ParseURI("http://localhost:3000")
-	logrus.SetLevel(logrus.FatalLevel)
-	fwd, err := forward.New(forward.Stream(false))
-	if err != nil {
-		panic(err)
-	}
-	fwd.ServeHTTP(w, r)
-}
-
 // NewMasterHandler returns the top level handler
 func NewMasterHandler(ac *AuthController, uc *UserController) *MasterHandler {
 	log.Println("Run fileserver")
 	fileshttp := http.NewServeMux()
-	fileshttp.Handle("/", http.FileServer(http.Dir("./web/public/")))
+	fileshttp.Handle("/", http.FileServer(http.Dir("./public/")))
 
 	return &MasterHandler{
 		AuthController: ac,
 		UserController: uc,
-		ProxyHandler:   ReverseProxy,
 		FileServer:     fileshttp,
 	}
 }
@@ -91,12 +76,8 @@ func (h *MasterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.Header.Get("X-API") != "":
 		h.HandleAPI(w, r)
-	case strings.HasPrefix(r.URL.Path, "/Cesium"):
-		h.FileServer.ServeHTTP(w, r)
-	case strings.HasPrefix(r.URL.Path, "/3dmodels"):
-		h.FileServer.ServeHTTP(w, r)
 	default:
-		h.HandleReactProxy(w, r)
+		h.FileServer.ServeHTTP(w, r)
 	}
 }
 
